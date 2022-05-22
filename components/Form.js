@@ -1,30 +1,22 @@
-import { useState } from 'react';
 import { StyledForm } from './StyledForm';
+import { useForm } from 'react-hook-form';
 
 export default function Form() {
-  const initialProduct = { name: '', price: '0' };
-  const [product, setProduct] = useState(initialProduct);
+  const { register, handleSubmit, watch } = useForm();
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log(product);
+  const onSubmit = (data) => {
+    console.log(data);
   };
 
-  function handleChange(event) {
-    const field = event.target;
-    const value = field.value;
-    setProduct({ ...product, [field.name]: value });
-  }
-
   return (
-    <StyledForm onSubmit={handleSubmit}>
+    <StyledForm onSubmit={handleSubmit(onSubmit)}>
       {/* ----------NAME---------- */}
       <label htmlFor="name">Product Name</label>
-      <input type="text" id="name" name="name" onChange={handleChange} />
+      <input type="text" id="name" {...register('name')} />
 
       {/* ----------PRICE---------- */}
       <label htmlFor="price">Price</label>
-      <input type="number" id="price" name="price" onChange={handleChange} />
+      <input type="number" id="price" {...register('price')} />
 
       <button type="submit">Submit</button>
     </StyledForm>
