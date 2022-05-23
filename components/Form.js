@@ -6,9 +6,6 @@ import Image from 'next/image';
 export default function Form() {
   const { register, handleSubmit, watch } = useForm();
 
-  const CLOUD = process.env.CLOUDINARY_CLOUD;
-  const PRESET = process.env.CLOUDINARY_PRESET;
-
   const placeholderImage = {
     url: 'https://images.unsplash.com/photo-1535591273668-578e31182c4f?ixlib=rb-1.2.1&raw_url=true&q=80&fm=jpg&crop=entropy&cs=tinysrgb&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740',
     width: 460,
@@ -19,14 +16,13 @@ export default function Form() {
 
   const uploadImage = async () => {
     try {
-      const url = `https://api.cloudinary.com/v1_1/${CLOUD}/upload`;
       const image = watch('image')[0];
+      console.log(image);
 
       const fileData = new FormData();
       fileData.append('file', image);
-      fileData.append('upload_preset', PRESET);
 
-      const response = await fetch(url, {
+      const response = await fetch('/api/upload', {
         method: 'POST',
         headers: {
           'Content-Type': 'multipart/form-data',
